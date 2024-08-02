@@ -8,8 +8,8 @@ import acceuilPage from './components/acceuilPage.vue';
 
 const routes = [
   { path: '/CreateAccount', component: CreateAccount },
-  { path: '/auth', component: AuthentificationPage },
-  { path: '/', component: acceuilPage },
+  { path: '/', component: AuthentificationPage },
+  { path: '/acceuilPage', component: acceuilPage },
 ];
 
 const router = createRouter({

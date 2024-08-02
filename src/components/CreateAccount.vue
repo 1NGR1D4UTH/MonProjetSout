@@ -29,9 +29,6 @@
       <div class="input-field">
         <label for="photoProfil">Photo de profil</label>
         <input type="file" id="image" @change="handleImageUpload" />
-        <!-- <input class="box" type="file" id="photoProfil" accept="image/*" @change="onFileSelected2" required>
-        
-        <img class="affiche" :src="selectedImageURL2" v-if="selectedImage2"> -->
       </div>
       <div class="input-field">
         <div><label for="password">Mot de passe:</label></div>
@@ -42,6 +39,7 @@
       </div>
       <button class="btn" type="submit">
         <span>Inscription</span>
+        <p style="color: black">vous avez un compte? <router-link to="/">Se connecter</router-link></p>
       </button>
     </form>
     <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
@@ -49,73 +47,12 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-
 export default {
   data() {
     return {
-      username: '',
-      date_naissance: '',
-      contact: '',
-      image: null,
-      imageBase64: '',
-      type_u: 'client',
-      password: '',
-      successMessage: '',
-      errorMessage: ''
     };
   },
   methods: {
-    handleImageUpload(event) {
-      this.image = event.target.files[0];
-      this.convertToBase64(this.image)
-        .then(base64 => {
-          this.imageBase64 = base64;
-        })
-        .catch(error => {
-          this.errorMessage = 'Erreur lors de la conversion en base64 : ' + error;
-        });
-    },
-    convertToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          resolve(fileReader.result);
-        };
-        fileReader.onerror = error => {
-          reject(error);
-        };
-      });
-    },
-    async createAccount() {
-      try {
-        const formData = new FormData();
-        formData.append('username', this.username);
-        formData.append('date_naissance', this.date_naissance);
-        formData.append('contact', this.contact);
-        formData.append('image', this.image);
-        formData.append('type_u', this.type_u);
-        formData.append('password', this.password);
-
-        await axios.post('http://192.168.100.116:3000/signup', formData);
-        this.successMessage = 'Inscription réussie !';
-        this.resetForm();
-      } catch (error) {
-        this.errorMessage = 'Échec de l\'inscription : ' + error.response.data.message;
-      }
-    },
-    resetForm() {
-      this.username = '';
-      this.date_naissance = '';
-      this.contact = '';
-      this.image = null;
-      this.imageBase64 = '';
-      this.type_u = 'client';
-      this.password = '';
-      this.successMessage = '';
-      this.errorMessage = '';
-    }
   }
 };
 </script>
@@ -124,7 +61,7 @@ export default {
 h2 {
   font-size: 25px;
   font-weight: bold;
-  color: rgba(6, 40, 61, 1);
+  color: rgb(2, 34, 72);
 }
 
 .stext {
@@ -138,6 +75,7 @@ h2 {
   width: 450px;
   margin: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   padding: 15px;
   margin-top: 100px;
 }
@@ -169,12 +107,12 @@ input:nth-child(2) {
 label {
   font-weight: 700;
   font-size: 16px;
-  color: rgba(6, 40, 61, 1);
+  color: rgb(2, 34, 72);
 
 }
 
 .mot {
-  color: rgba(6, 40, 61, 1);
+  color: rgb(2, 34, 72);
   font-weight: 500;
   font-size: 15px;
 }
@@ -189,7 +127,7 @@ label {
 .btn {
   margin-top: 20px;
   font-size: 17px;
-  background: rgba(51, 167, 226, 1);
+  background: rgb(2, 34, 72);
   border: none;
   width: 100%;
   border-radius: 10px;
@@ -199,13 +137,13 @@ label {
 
 .pas {
   font-weight: 700;
-  color: rgba(6, 40, 61, 1);
+  color: rgb(2, 34, 72);
   font-size: 14px;
 }
 
 .pas a {
   text-decoration: none;
-  color: rgb(214, 106, 5);
+  color: orangered;
 }
 
 .loading-indicator::after {
@@ -215,8 +153,8 @@ label {
   height: 23px;
   border-radius: 50%;
   border: 3px solid #06283D;
-  border-top-color: #007A5E;
-  border-bottom-color: #007A5E;
+  border-top-color: rgb(2, 34, 72);
+  border-bottom-color: rgb(2, 34, 72);
   animation: spin 1s linear infinite;
 }
 
@@ -244,7 +182,7 @@ label {
 
 ::-webkit-file-upload-button {
   color: white;
-  background: rgba(51, 167, 226, 1);
+  background: rgb(2, 34, 72);
   padding: 10px;
   border: none;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -253,6 +191,6 @@ label {
 }
 
 ::-webkit-file-upload-button:hover {
-  background: rgba(51, 168, 226, 0.678);
+  background: rgb(2, 34, 72);
 }
 </style>

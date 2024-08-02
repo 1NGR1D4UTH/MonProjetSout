@@ -20,6 +20,7 @@
           <span class="loading-indicator" v-if="loading"></span>
           <span v-else>Connexion</span>
         </button>
+        <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
       </div>
     </form>
   </div>
@@ -75,7 +76,7 @@ export default {
 h2 {
   font-size: 25px;
   font-weight: bold;
-  color: #007A5E;
+  color: rgb(2, 34, 72);
 }
 
 .stext {
@@ -90,6 +91,7 @@ h2 {
   height: 450px;
   margin: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 10px;
   padding: 15px;
   margin-top: 120px;
 }
@@ -133,7 +135,7 @@ label {
 .btn {
   margin-top: 20px;
   font-size: 17px;
-  background: #007A5E;
+  background: rgb(2, 34, 72);
   border: none;
   width: 100%;
   border-radius: 10px;
@@ -159,8 +161,8 @@ label {
   height: 23px;
   border-radius: 50%;
   border: 3px solid white;
-  border-top-color: #007A5E;
-  border-bottom-color: #007A5E;
+  border-top-color: rgb(2, 34, 72);
+  border-bottom-color: rgb(2, 34, 72);
   animation: spin 1s linear infinite;
 }
 
