@@ -17,7 +17,7 @@
         </nav>
         <div class="main">
             <section class="sect1">
-                <div></div>
+                <div> </div>
                 <div class="marg"></div>
             </section>
             <section class="sect2"></section>
