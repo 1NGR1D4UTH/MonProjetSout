@@ -39,7 +39,14 @@
       </div>
       <button class="btn" type="submit">
         <span>Inscription</span>
-        <p style="color: black">vous avez un compte? <router-link to="/">Se connecter</router-link></p>
+        <p style="color: black">vous avez un compte? <router-link to="/">Se 
+          3333333333333
+          
+          
+          
+          
+          
+          2connecter</router-link></p>
       </button>
     </form>
     <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
