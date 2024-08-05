@@ -27,7 +27,7 @@
         </select>
       </div>
       <div class="input-field">
-        <label for="photoProfil">Photo de profil</label>
+        <label for="photoProfil">Photo de profil</label><br><br>
         <input type="file" id="signupprofile" @change="handleImageUpload" />
       </div>
       <div class="input-field">
