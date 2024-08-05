@@ -25,11 +25,11 @@
           <option value="client">Feminin</option>
           <option value="admin">Masculin</option>
         </select>
-      </div>
+      </div><br>
       <div class="input-field">
         <label for="photoProfil">Photo de profil</label><br><br>
         <input type="file" id="signupprofile" @change="handleImageUpload" />
-      </div>
+      </div><br>
       <div class="input-field">
         <div> <label for="telephone">Telephone</label></div>
         <input class="input" id="signupphone" v-model="contact" required>
@@ -43,13 +43,13 @@
         <input class="input" type="text" id="signuplocalisation" v-model="localisation" required>
       </div>
       <div class="input-field">
-        <div> <label for="name">Type d'utilisateur</label></div>
+        <div> <label for="name">Type d'utilisateur</label></div><br>
         <select id="type_u" v-model="type_u" required>
           <option value="client">Client</option>
           <option value="client">Employé</option>
           <option value="admin">Admin</option>
         </select>
-      </div>
+      </div><br>
 
 
       <div class="input-field">
@@ -116,6 +116,7 @@ h2 {
   color: rgb(2, 34, 72);
   display: flex;
   justify-content: center;
+  margin-top: 5px;
 }
 
 
@@ -137,7 +138,8 @@ h2 {
 
 form {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 5px;
+
 }
 
 .monda-font {
