@@ -26,10 +26,10 @@
           <option value="admin">Masculin</option>
         </select>
       </div><br>
-      <div class="input-field">
+      <!--<div class="input-field">
         <label for="photoProfil">Photo de profil</label><br><br>
         <input type="file" id="signupprofile" @change="handleImageUpload" />
-      </div><br>
+      </div><br>-->
       <div class="input-field">
         <div> <label for="telephone">Telephone</label></div>
         <input class="input" id="signupphone" v-model="contact" required>

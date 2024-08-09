@@ -9,20 +9,20 @@
     <form @submit.prevent="login">
       <div class="input-field">
         <div><label for="email">Téléphone/Email</label></div>
-        <input id="contact" v-model="loginForm.username" required>
+        <input id="contact" v-model="email" required>
       </div>
       <div class="input-field">
         <div><label for="password">Mot de passe</label></div>
-        <input type="password" id="password" v-model="loginForm.password" required>
+        <input type="password" id="password" v-model="password" required>
       </div>
       <div>
-        <button class="btn" type="submit" :disabled="loading">
-          <span class="loading-indicator" v-if="loading"></span>
-          <span v-else>Connexion</span>
+        <button class="btn" type="submit" >
+          Se connecter
         </button>
         <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
       </div>
     </form>
+    <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
@@ -31,45 +31,32 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      noms: [
-        { nom: "Randy"},
-        {nom: "Dimitri"},
-        {nom: "Durelle"},
-        {nom: "Patrick"},
-        {nom: "Ange"}
-      ],
-      loginForm: {
-        username: '', 
-        password: ''
-      },
-      loggedIn: false,
-      username: '',
-    };
+        email: '', 
+        password: '',
+        error:''
+      
+    }
   },
 
   methods: {
     async login() {
-      try {
-        const response = await axios.post('http://192.168.100.116:3000/login', this.loginForm);
-        const { token } = response.data;
+            try {
+                const response = await axios.post('http://localhost:3000/login', {
+                    email: this.email,
+                    password: this.password
+                });
 
-        if (token) {
-          localStorage.setItem('token', token);
-          localStorage.setItem('username', this.loginForm.username);
-          console.log(this.loginForm.username);
-          this.loggedIn = true;
-          this.username = this.loginForm.username;
-          this.$router.push("acceuilPage");
-        } else {
-          throw new Error('Réponse invalide');
+                localStorage.setItem('token', response.data.token);
+                console.log('token');
+                this.$router.push("/acceuilPage");
+                // Redirect the user to a protected route or do something else
+            } catch (error) {
+                this.error = error.response.data.message;
+            }
+     
         }
-      } catch (error) {
-        console.error(error.response?.data || error.message);
-        alert('Échec de la connexion');
-      }
-    }
-  },
-};
+   }
+}
 </script>
 
 <style scoped>
