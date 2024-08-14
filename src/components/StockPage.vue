@@ -1,6 +1,7 @@
 <template>
     <NavBarPage/>
-    <p> Bienvenue</p>
+        <h2>Produits en stock</h2>
+        
     
     </template>
     <script>

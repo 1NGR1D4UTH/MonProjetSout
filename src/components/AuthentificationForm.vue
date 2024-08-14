@@ -1,4 +1,5 @@
 <template>
+  <body>
   <div  class="container monda-font ">
     <nav>
       <img src="" alt="" />
@@ -24,6 +25,7 @@
     </form>
     <p v-if="error">{{ error }}</p>
   </div>
+  </body>
 </template>
 
 <script>
@@ -60,27 +62,44 @@ export default {
 </script>
 
 <style scoped>
+
+body{
+ background-image: url(../assets/3.jpeg);
+ background-size: cover;
+ background-repeat: no-repeat;
+ margin: 0; 
+ padding: 0; 
+ height: 100vh; 
+ display: flex; 
+ justify-content: center; 
+ align-items: center;
+}
+
 h2 {
   font-size: 25px;
   font-weight: bold;
   color: rgb(2, 34, 72);
+
 }
 
 .stext {
   color: rgba(0, 0, 0, 0.2);
   font-size: 13px;
   margin-top: -20px;
+  
 }
 
 .container {
   text-align: left;
   width: 450px;
   height: 450px;
-  margin: auto;
+ margin: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
   border-radius: 10px;
   padding: 15px;
+  background-color: white;
   margin-top: 120px;
+  
 }
 
 form {
@@ -151,6 +170,7 @@ label {
   border-top-color: rgb(2, 34, 72);
   border-bottom-color: rgb(2, 34, 72);
   animation: spin 1s linear infinite;
+  
 }
 
 @keyframes spin {

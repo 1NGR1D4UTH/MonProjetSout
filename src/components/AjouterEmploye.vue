@@ -1,104 +1,264 @@
 <template>
-    <div class="container">
-        <div>
-            <h2 class="monda-font">Ajouter un Employé</h2>
-        </div>
-        <!--<form action="/submit" method="post">
-            <label for="nom">Nom:</label>
-            <input type="text" id="nom" name="nom" required>
-
-            <label for="prenom">Prénom:</label>
-            <input type="text" id="prenom" name="prenom" required>
-
-            <label for="date_naissance">Date de naissance:</label>
-            <input type="date" id="date_naissance" name="date_naissance" required>
-
-            <label for="sexe">Sexe:</label>
-            <select id="sexe" name="sexe" required>
-            <option value="masculin">Masculin</option>
-            <option value="feminin">Féminin</option>
-            </select>
-
-            <label for="telephone">Téléphone:</label>
-            <input type="tel" id="telephone" name="telephone" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="localisation">Localisation:</label>
-            <input type="text" id="localisation" name="localisation" required>
-
-            <label for="type_utilisateur">Type d'utilisateur:</label>
-            <select id="type_utilisateur" name="type_utilisateur" required>
-            <option value="client">Client</option>
-            <option value="employe">Employé</option>
-            <option value="admin">Admin</option>
-            </select>
-
-            <label for="mot_de_passe">Mot de passe:</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" required>
-
-            <input type="submit" value="Ajouter">
-        </form> -->
+  
+    <div class="container monda-font animate__animated animate__fadeInDown">
+    <nav>
+      <img src="" alt="" />
+    </nav>
+    <div>
+      <h2 class="monda-font">Ajouter un employé</h2>
     </div>
+    <form @submit.prevent="addEmploye">
+      <div class="input-field">
+        <div> <label for="name">Nom </label></div>
+        <input class="input" type="text" id="addEmployeusername" v-model="username" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="name">Prénom </label></div>
+        <input class="input" type="text" id="addEmployesurname" v-model="surname" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="name">Date de naissance</label></div>
+        <input class="input" type="date" id="addEmployebirthday" v-model="date_naissance" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="name">Sexe</label></div>
+        <select id="sexe" v-model="sexe" required>
+          <option value="client">Feminin</option>
+          <option value="admin">Masculin</option>
+        </select>
+      </div><br>
+      <!--<div class="input-field">
+        <label for="photoProfil">Photo de profil</label><br><br>
+        <input type="file" id="signupprofile" @change="handleImageUpload" />
+      </div><br>-->
+      <div class="input-field">
+        <div> <label for="telephone">Telephone</label></div>
+        <input class="input" id="addEmployephone" v-model="contact" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="telephone">Email</label></div>
+        <input class="input" id="addEmployeemail" v-model="email" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="name">Localisation</label></div>
+        <input class="input" type="text" id="addEmployelocalisation" v-model="localisation" required>
+      </div>
+      <div class="input-field">
+        <div> <label for="name">Type d'utilisateur</label></div><br>
+        <select id="type_u" v-model="type_u" required>
+          <option value="client">Client</option>
+          <option value="client">Employé</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div><br>
+
+
+      <div class="input-field">
+        <div><label for="password">Mot de passe:</label></div>
+        <div>
+          <input class="input" type="password" id="addEmployepassword" v-model="password" required>
+
+        </div>
+      </div>
+      <button class="btn" type="submit">
+        <span>Enregistrer</span>
+      </button>
+    </form>
+    <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </div>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+    data() {
+        return {
+        /*username: '',
+        surname: '',
+        date_naissance: '',
+        sexe: '',
+        contact: '',
+        email: '',
+        localisation: '',
+        type_u: '',
+        password: '',
+        admin_id: '', // Ajouter l'ID de l'admin ici
+        successMessage: '',
+        errorMessage: ''*/
+        };
+    },
+    mounted() {
+    },
+    methods: {
+        async addEmploye() {
+        try {
+            const response = await axios.post('http://localhost:3000/addEmploye', {
+            username : this.username,
+            surname: this.surname,
+            date_naissance: this.date_naissance,
+            contact: this.contact,
+            email: this.email,
+            localisation: this.localisation, 
+            password: this.password,
+          
+         
+        });
+        
+        console.log(response.data.message);
+      } catch (error) {
+        console.log('echec');
+      }
+            
+    
+    }
+    }
+};
+
+</script>
+
+
 <style>
 
-
-/*h2 {
-  font-size: 25px;
+h2 {
+  font-size: 40px;
   font-weight: bold;
   color: rgb(2, 34, 72);
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
 }
-body {
-font-family: Arial, sans-serif, 'Monda';
-background-color: #f4f4f4;
-margin: 0;
-padding: 0;
+
+
+.stext {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  margin-top: -20px;
 }
 
 .container {
-width: 50%;
-margin: auto;
-background: white;
-padding: 20px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-margin-top: 50px;
-}
-
-h2 {
-text-align: center;
-margin-bottom: 20px;
+  text-align: left;
+  width: 450px;
+  margin: auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  /*margin-top: 100px;*/
 }
 
 form {
-display: flex;
-flex-direction: column;
+  width: 100%;
+  margin-top: 5px;
+
+}
+
+.monda-font {
+  font-family: 'Monda', sans-serif;
+}
+
+.input {
+  width: 98%;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin-top: 5px;
+
+}
+
+
+input:nth-child(2) {
+  margin-bottom: 20px;
 }
 
 label {
-margin-bottom: 5px;
-font-weight: bold;
+  font-weight: 700;
+  font-size: 16px;
+  color: rgb(2, 34, 72);
+
 }
 
-input, select {
-margin-bottom: 15px;
-padding: 10px;
-font-size: 16px;
-border: 1px solid #ccc;
-border-radius: 5px;
+.mot {
+  color: rgb(2, 34, 72);
+  font-weight: 500;
+  font-size: 15px;
 }
 
-input[type="submit"] {
-background-color: rgb(2, 34, 72);
-color: white;
-border: none;
-cursor: pointer;
-padding: 15px;
-font-size: 18px;
+.affiche {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 38% !important;
 }
 
-input[type="submit"]:hover {
-background-color: rgb(2, 34, 72);
-} */
+.btn {
+  margin-top: 20px;
+  font-size: 17px;
+  background: rgb(2, 34, 72);
+  border: none;
+  width: 100%;
+  border-radius: 10px;
+  height: 35px;
+  color: white;
+}
+
+.pas {
+  font-weight: 700;
+  color: rgb(2, 34, 72);
+  font-size: 14px;
+}
+
+.pas a {
+  text-decoration: none;
+  color: orangered;
+}
+
+.loading-indicator::after {
+  content: "";
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 3px solid #06283D;
+  border-top-color: rgb(2, 34, 72);
+  border-bottom-color: rgb(2, 34, 72);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+
+/*type file*/
+.box {
+  font-size: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  outline: none;
+}
+
+::-webkit-file-upload-button {
+  color: white;
+  background: rgb(2, 34, 72);
+  padding: 10px;
+  border: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  outline: none;
+}
+
+::-webkit-file-upload-button:hover {
+  background: rgb(2, 34, 72);
+} 
 </style>

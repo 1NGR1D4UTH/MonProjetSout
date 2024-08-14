@@ -60,7 +60,7 @@
         </div>
       </div>
       <button class="btn" type="submit">
-        <span>Inscription</span>
+        <span>Inscription</span><br><br>
         <p style="color: black">vous avez un compte? <router-link to="/">Se connecter</router-link></p>
       </button>
     </form>
@@ -98,7 +98,7 @@ export default {
           
          
         });
-        
+        this.$router.push('/');
         console.log(response.data.message);
       } catch (error) {
         console.log('echec');
