@@ -1,4 +1,5 @@
 <template>
+  <body>
   <div  class="container monda-font ">
     <nav>
       <img src="" alt="" />
@@ -9,21 +10,22 @@
     <form @submit.prevent="login">
       <div class="input-field">
         <div><label for="email">Téléphone/Email</label></div>
-        <input id="contact" v-model="loginForm.username" required>
+        <input id="contact" v-model="email" required>
       </div>
       <div class="input-field">
         <div><label for="password">Mot de passe</label></div>
-        <input type="password" id="password" v-model="loginForm.password" required>
+        <input type="password" id="password" v-model="password" required>
       </div>
       <div>
-        <button class="btn" type="submit" :disabled="loading">
-          <span class="loading-indicator" v-if="loading"></span>
-          <span v-else>Connexion</span>
+        <button class="btn" type="submit" >
+          Se connecter
         </button>
         <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
       </div>
     </form>
+    <p v-if="error">{{ error }}</p>
   </div>
+  </body>
 </template>
 
 <script>
@@ -31,69 +33,73 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      noms: [
-        { nom: "Randy"},
-        {nom: "Dimitri"},
-        {nom: "Durelle"},
-        {nom: "Patrick"},
-        {nom: "Ange"}
-      ],
-      loginForm: {
-        username: '', 
-        password: ''
-      },
-      loggedIn: false,
-      username: '',
-    };
+        email: '', 
+        password: '',
+        error:''
+      
+    }
   },
 
   methods: {
     async login() {
-      try {
-        const response = await axios.post('http://192.168.100.116:3000/login', this.loginForm);
-        const { token } = response.data;
+            try {
+                const response = await axios.post('http://localhost:3000/login', {
+                    email: this.email,
+                    password: this.password
+                });
 
-        if (token) {
-          localStorage.setItem('token', token);
-          localStorage.setItem('username', this.loginForm.username);
-          console.log(this.loginForm.username);
-          this.loggedIn = true;
-          this.username = this.loginForm.username;
-          this.$router.push("acceuilPage");
-        } else {
-          throw new Error('Réponse invalide');
+                localStorage.setItem('token', response.data.token);
+                console.log('token');
+                this.$router.push("/acceuilPage");
+                // Redirect the user to a protected route or do something else
+            } catch (error) {
+                this.error = error.response.data.message;
+            }
+     
         }
-      } catch (error) {
-        console.error(error.response?.data || error.message);
-        alert('Échec de la connexion');
-      }
-    }
-  },
-};
+   }
+}
 </script>
 
 <style scoped>
+
+body{
+ background-image: url(../assets/3.jpeg);
+ background-size: cover;
+ background-repeat: no-repeat;
+ margin: 0; 
+ padding: 0; 
+ height: 100vh; 
+ display: flex; 
+ justify-content: center; 
+ align-items: center;
+}
+
 h2 {
   font-size: 25px;
   font-weight: bold;
   color: rgb(2, 34, 72);
+
 }
 
 .stext {
   color: rgba(0, 0, 0, 0.2);
   font-size: 13px;
   margin-top: -20px;
+  
 }
 
 .container {
   text-align: left;
   width: 450px;
   height: 450px;
-  margin: auto;
+ margin: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
   border-radius: 10px;
   padding: 15px;
+  background-color: white;
   margin-top: 120px;
+  
 }
 
 form {
@@ -164,6 +170,7 @@ label {
   border-top-color: rgb(2, 34, 72);
   border-bottom-color: rgb(2, 34, 72);
   animation: spin 1s linear infinite;
+  
 }
 
 @keyframes spin {

@@ -1,23 +1,24 @@
 <template>
-  <div class="container monda-font animate__animated animate__fadeInDown">
+  
+    <div class="container monda-font animate__animated animate__fadeInDown">
     <nav>
       <img src="" alt="" />
     </nav>
     <div>
-      <h2 class="monda-font">Inscription</h2>
+      <h2 class="monda-font">Ajouter un employé</h2>
     </div>
-    <form @submit.prevent="createAcount">
+    <form @submit.prevent="addEmploye">
       <div class="input-field">
         <div> <label for="name">Nom </label></div>
-        <input class="input" type="text" id="signupusername" v-model="username" required>
+        <input class="input" type="text" id="addEmployeusername" v-model="username" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Prénom </label></div>
-        <input class="input" type="text" id="signupsurname" v-model="surname" required>
+        <input class="input" type="text" id="addEmployesurname" v-model="surname" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Date de naissance</label></div>
-        <input class="input" type="date" id="signupbirthday" v-model="date_naissance" required>
+        <input class="input" type="date" id="addEmployebirthday" v-model="date_naissance" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Sexe</label></div>
@@ -32,15 +33,15 @@
       </div><br>-->
       <div class="input-field">
         <div> <label for="telephone">Telephone</label></div>
-        <input class="input" id="signupphone" v-model="contact" required>
+        <input class="input" id="addEmployephone" v-model="contact" required>
       </div>
       <div class="input-field">
         <div> <label for="telephone">Email</label></div>
-        <input class="input" id="signupemail" v-model="email" required>
+        <input class="input" id="addEmployeemail" v-model="email" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Localisation</label></div>
-        <input class="input" type="text" id="signuplocalisation" v-model="localisation" required>
+        <input class="input" type="text" id="addEmployelocalisation" v-model="localisation" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Type d'utilisateur</label></div><br>
@@ -55,59 +56,70 @@
       <div class="input-field">
         <div><label for="password">Mot de passe:</label></div>
         <div>
-          <input class="input" type="password" id="signuppassword" v-model="password" required>
+          <input class="input" type="password" id="addEmployepassword" v-model="password" required>
 
         </div>
       </div>
       <button class="btn" type="submit">
-        <span>Inscription</span><br><br>
-        <p style="color: black">vous avez un compte? <router-link to="/">Se connecter</router-link></p>
+        <span>Enregistrer</span>
       </button>
     </form>
     <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
     <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 export default {
-
-  components: {
-  },
-  data() {
-
-    return {
-
-    };
-  },
-  mounted() {
-  },
-  methods: {
-    async createAcount() {
-      try {
-        const response = await axios.post('http://localhost:3000/signup', {
-          username: this.username,
-          surname: this.surname,
-          date_naissance: this.date_naissance,
-          sexe: this.sexe,
-          contact: this.contact,
-          email: this.email,
-          localisation: this.localisation,
-          type_u: this.type_u,
-          password: this.password,
+    data() {
+        return {
+        /*username: '',
+        surname: '',
+        date_naissance: '',
+        sexe: '',
+        contact: '',
+        email: '',
+        localisation: '',
+        type_u: '',
+        password: '',
+        admin_id: '', // Ajouter l'ID de l'admin ici
+        successMessage: '',
+        errorMessage: ''*/
+        };
+    },
+    mounted() {
+    },
+    methods: {
+        async addEmploye() {
+        try {
+            const response = await axios.post('http://localhost:3000/addEmploye', {
+            username : this.username,
+            surname: this.surname,
+            date_naissance: this.date_naissance,
+            contact: this.contact,
+            email: this.email,
+            localisation: this.localisation, 
+            password: this.password,
+          
+         
         });
         
         console.log(response.data.message);
       } catch (error) {
         console.log('echec');
       }
-    },
-  }
+            
+    
+    }
+    }
 };
 
 </script>
 
-<style scoped>
+
+<style>
+
 h2 {
   font-size: 40px;
   font-weight: bold;
@@ -131,7 +143,7 @@ h2 {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 15px;
-  margin-top: 100px;
+  /*margin-top: 100px;*/
 }
 
 form {
@@ -248,5 +260,5 @@ label {
 
 ::-webkit-file-upload-button:hover {
   background: rgb(2, 34, 72);
-}
+} 
 </style>
