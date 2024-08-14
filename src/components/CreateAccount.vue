@@ -86,7 +86,7 @@ export default {
     async createAcount() {
       try {
         const response = await axios.post('http://localhost:3000/signup', {
-          username : this.username,
+          username: this.username,
           surname: this.surname,
           date_naissance: this.date_naissance,
           sexe: this.sexe,
@@ -95,10 +95,7 @@ export default {
           localisation: this.localisation,
           type_u: this.type_u,
           password: this.password,
-          
-         
         });
-        
         console.log(response.data.message);
       } catch (error) {
         console.log('echec');
