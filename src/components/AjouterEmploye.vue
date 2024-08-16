@@ -1,6 +1,6 @@
 <template>
-  
-    <div class="container monda-font animate__animated animate__fadeInDown">
+
+  <div class="container monda-font animate__animated animate__fadeInDown">
     <nav>
       <img src="" alt="" />
     </nav>
@@ -23,8 +23,8 @@
       <div class="input-field">
         <div> <label for="name">Sexe</label></div>
         <select id="sexe" v-model="sexe" required>
-          <option value="client">Feminin</option>
-          <option value="admin">Masculin</option>
+          <option value="Feminin">Feminin</option>
+          <option value="Masculin">Masculin</option>
         </select>
       </div><br>
       <!--<div class="input-field">
@@ -47,7 +47,7 @@
         <div> <label for="name">Type d'utilisateur</label></div><br>
         <select id="type_u" v-model="type_u" required>
           <option value="client">Client</option>
-          <option value="client">Employé</option>
+          <option value="Employé">Employé</option>
           <option value="admin">Admin</option>
         </select>
       </div><br>
@@ -72,54 +72,58 @@
 <script>
 import axios from 'axios';
 export default {
-    data() {
-        return {
-        /*username: '',
-        surname: '',
-        date_naissance: '',
-        sexe: '',
-        contact: '',
-        email: '',
-        localisation: '',
-        type_u: '',
-        password: '',
-        admin_id: '', // Ajouter l'ID de l'admin ici
-        successMessage: '',
-        errorMessage: ''*/
-        };
-    },
-    mounted() {
-    },
-    methods: {
-        async addEmploye() {
-        try {
-            const response = await axios.post('http://localhost:3000/addEmploye', {
-            username : this.username,
-            surname: this.surname,
-            date_naissance: this.date_naissance,
-            contact: this.contact,
-            email: this.email,
-            localisation: this.localisation, 
-            password: this.password,
-          
-         
+  data() {
+    return {
+      username: '',
+      surname: '',
+      date_naissance: '',
+      sexe: '',
+      contact: '',
+      email: '',
+      localisation: '',
+      type_u: '',
+      password: '',
+      admin_id: '', // Ajouter l'ID de l'admin ici
+      successMessage: '',
+      errorMessage: ''
+    };
+  },
+  mounted() {
+  },
+  methods: {
+    async addEmploye() {
+      try {
+        const response = await axios.post('http://localhost:3000/addEmploye', {
+          id_admin: localStorage.getItem('userId'),
+          username: this.username,
+          type_u: this.type_u,
+          sexe: this.sexe,
+          surname: this.surname,
+          date_naissance: this.date_naissance,
+          contact: this.contact,
+          email: this.email,
+          localisation: this.localisation,
+          password: this.password
+        }, {
         });
-        
+
         console.log(response.data.message);
       } catch (error) {
-        console.log('echec');
+        // Vérifier si l'erreur est liée à l'authentification
+        if (error.response && error.response.status === 401) {
+          console.log('Erreur d\'authentification');
+        } else {
+          console.log('Echec de l\'ajout de l\'employé');
+        }
       }
-            
-    
     }
-    }
+  }
 };
 
 </script>
 
 
 <style>
-
 h2 {
   font-size: 40px;
   font-weight: bold;
@@ -260,5 +264,5 @@ label {
 
 ::-webkit-file-upload-button:hover {
   background: rgb(2, 34, 72);
-} 
+}
 </style>

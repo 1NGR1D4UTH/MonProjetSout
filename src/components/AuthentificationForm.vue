@@ -1,78 +1,83 @@
 <template>
+
   <body>
-  <div  class="container monda-font ">
-    <nav>
-      <img src="" alt="" />
-    </nav>
-    <div>
-      <h2 class="monda-font">Connexion</h2>
-    </div>
-    <form @submit.prevent="login">
-      <div class="input-field">
-        <div><label for="email">Téléphone/Email</label></div>
-        <input id="contact" v-model="email" required>
-      </div>
-      <div class="input-field">
-        <div><label for="password">Mot de passe</label></div>
-        <input type="password" id="password" v-model="password" required>
-      </div>
+    <div class="container monda-font ">
+      <nav>
+        <img src="" alt="" />
+      </nav>
       <div>
-        <button class="btn" type="submit" >
-          Se connecter
-        </button>
-        <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
+        <h2 class="monda-font">Connexion</h2>
       </div>
-    </form>
-    <p v-if="error">{{ error }}</p>
-  </div>
+      <form @submit.prevent="login">
+        <div class="input-field">
+          <div><label for="email">Téléphone/Email</label></div>
+          <input id="contact" v-model="email" required>
+        </div>
+        <div class="input-field">
+          <div><label for="password">Mot de passe</label></div>
+          <input type="password" id="password" v-model="password" required>
+        </div>
+        <div>
+          <button class="btn" type="submit">
+            Se connecter
+          </button>
+          <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
+        </div>
+      </form>
+      <p v-if="error">{{ error }}</p>
+    </div>
   </body>
 </template>
-
 <script>
+
+// Dans votre composant Vue.js
 import axios from 'axios';
+
 export default {
   data() {
     return {
-        email: '', 
-        password: '',
-        error:''
-      
-    }
+      email: '',
+      password: '',
+    };
   },
-
   methods: {
     async login() {
-            try {
-                const response = await axios.post('http://localhost:3000/login', {
-                    email: this.email,
-                    password: this.password
-                });
+      try {
+        const response = await axios.post('http://localhost:3000/login', {
+          email: this.email,
+          password: this.password,
+        });
 
-                localStorage.setItem('token', response.data.token);
-                console.log('token');
-                this.$router.push("/acceuilPage");
-                // Redirect the user to a protected route or do something else
-            } catch (error) {
-                this.error = error.response.data.message;
-            }
-     
-        }
-   }
-}
+        const { token, userId } = response.data;
+
+        // Stocker l'ID de l'utilisateur dans le localStorage
+        localStorage.setItem('userId', userId);
+
+        // Stocker le jeton d'authentification dans une variable ou le localStorage
+        this.token = token;
+
+        // Rediriger l'utilisateur vers une page protégée ou effectuer d'autres actions
+        this.$router.push('/acceuilPage');
+      } catch (error) {
+        console.error(error);
+        // Afficher un message d'erreur à l'utilisateur
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-body{
- background-image: url(../assets/3.jpeg);
- background-size: cover;
- background-repeat: no-repeat;
- margin: 0; 
- padding: 0; 
- height: 100vh; 
- display: flex; 
- justify-content: center; 
- align-items: center;
+body {
+  background-image: url(../assets/3.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h2 {
@@ -86,20 +91,20 @@ h2 {
   color: rgba(0, 0, 0, 0.2);
   font-size: 13px;
   margin-top: -20px;
-  
+
 }
 
 .container {
   text-align: left;
   width: 450px;
   height: 450px;
- margin: auto;
+  margin: auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
   border-radius: 10px;
   padding: 15px;
   background-color: white;
   margin-top: 120px;
-  
+
 }
 
 form {
@@ -170,7 +175,7 @@ label {
   border-top-color: rgb(2, 34, 72);
   border-bottom-color: rgb(2, 34, 72);
   animation: spin 1s linear infinite;
-  
+
 }
 
 @keyframes spin {
