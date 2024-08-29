@@ -1,16 +1,17 @@
 <template>
     <NavBarPage/>
     <div class="command-interface">
-    <div class="header-buttons">
-        <button class="new-command">+ Ajouter une commande</button>
-        <button class="all-commands">Toutes les commandes</button>
-    </div>
-    <!--<div class="tabs">
-        <button class="tab active">Recherche par critères</button>
-        <button class="tab">Rechercher une commande</button>
-    </div>-->
-    <div class="search-criteria">
-        <div class="form-group">
+        <div class="header-buttons">
+            <div v-if="command" class="commande">
+                <i class="fas fa-window-close" @click="closePage" style="font-size: 20px; color: red;"></i>  
+                <AjouterCommande/>
+            </div>
+            <button class="new-command" @click="redirectToAjouterCommande">+ Ajouter une commande</button>
+            <button class="all-commands">Toutes les commandes</button>
+        </div>
+    
+        <div class="search-criteria">
+            <div class="form-group">
             <label for="client">Client</label>
             <select id="client">
                 <option value="">Sélectionner un client</option>
@@ -25,34 +26,43 @@
             <label for="end-date">Date de fin</label>
             <input type="text" id="end-date" placeholder="jj/mm/aaaa">
         </div>
-        <button class="search-button">Rechercher</button>
+            <button class="search-button">Rechercher</button>
+        </div>
+        <div class="order-status">
+            <button class="status-button active">À traiter <span>0</span></button>
+            <button class="status-button">En couture <span>0</span></button>
+            <button class="status-button">Livrées au client <span>0</span></button>
+        </div>
+        <div class="no-order">
+            Aucune commande
+        </div>
     </div>
-    <div class="order-status">
-        <button class="status-button active">À traiter <span>0</span></button>
-        <button class="status-button">En couture <span>0</span></button>
-        <button class="status-button">Livrées au client <span>0</span></button>
-    </div>
-    <div class="no-order">
-        Aucune commande
-    </div>
-</div>
     
 </template>
 <script>
+import AjouterCommande from './AjouterCommande.vue';
 import NavBarPage from './NavBarPage.vue';
 export default {
 
     components: {
-        NavBarPage
+        NavBarPage,
+        AjouterCommande
     },
     data() {
         return {
-
+            command: false,
         };
     },
     mounted() {
     },
     methods: {
+        closePage(){
+            this.command = false
+        },
+        redirectToAjouterCommande () {
+            this.command = true;
+        },
+        
     }
 };
 </script>
@@ -63,6 +73,14 @@ body {
     margin: 20px;
     width: 100%;
     height: 100%;
+}
+
+.commande{
+    position: absolute;
+    top: auto;
+    background-color: rgba(0,0,0,0.2);
+   left: 30%;
+   width: 700px;
 }
 
 .command-interface {
@@ -117,6 +135,7 @@ body {
 
 .search-criteria {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 20px;
     margin-bottom: 20px;
@@ -150,8 +169,10 @@ body {
 
 .order-status {
     display: flex;
+    justify-content: center;
     gap: 20px;
     margin-bottom: 20px;
+    padding: 10px;
 }
 
 .status-button {
@@ -182,5 +203,6 @@ body {
     color: #6c757d;
     text-align: center;
     margin-top: 20px;
+    padding: 10px;
 }
 </style>

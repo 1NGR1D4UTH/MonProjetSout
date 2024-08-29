@@ -10,6 +10,11 @@ import StockPage from './components/StockPage.vue';
 import EmployePage from './components/EmployePage.vue';
 import ProfilPage from './components/ProfilPage.vue';
 import AjouterEmploye from './components/AjouterEmploye.vue';
+import AjouterClient from './components/AjouterClient.vue';
+import AjouterCommande from './components/AjouterCommande.vue';
+import ModifierEmploye from './components/ModifierEmploye.vue';
+import MesuresClient from './components/MesuresClient.vue';
+
 
 const routes = [
   { path: '/CreateAccount', component: CreateAccount },
@@ -21,6 +26,10 @@ const routes = [
   { path: '/EmployePage', component: EmployePage },
   { path: '/ProfilPage', component: ProfilPage },
   { path: '/AjouterEmploye', component: AjouterEmploye },
+  { path: '/AjouterClient', component: AjouterClient },
+  { path: '/AjouterCommande', component: AjouterCommande },
+  { path: '/ModifierEmploye', component: ModifierEmploye },
+  { path: '/Mesuresclient', component: MesuresClient } 
 ];
 
 const router = createRouter({

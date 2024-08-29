@@ -5,22 +5,22 @@
       <img src="" alt="" />
     </nav>
     <div>
-      <h2 class="monda-font">Ajouter un employé</h2>
+      <h2 class="monda-font">Ajouter un client</h2>
     </div>
-    <form @submit.prevent="addEmploye">
+    <form @submit.prevent="addClient">
       <div class="input-field">
         <div> <label for="name">Nom et Prénom </label></div>
         <div class="form-row">
-        <input class="input" type="text" id="addEmployeusername" v-model="username" required>
-        <input class="input" type="text" id="addEmployesurname" v-model="surname" required>
+        <input class="input" type="text" id="addClientusername" v-model="nom" required>
+        <input class="input" type="text" id="addClientsurname" v-model="prenom" required>
       </div>
       </div>
       
       <div class="input-field">
           <div> <label for="name">Date et Lieu de naissance</label></div>
           <div class="form-row">
-            <input class="input" type="date" id="addEmployebirthday" v-model="date_naissance" required>
-            <input class="input" type="text" id="addEmployelieuNaissance" v-model="lieu_naissance" placeholder="A" required>
+            <input class="input" type="date" id="addClientbirthday" v-model="date_naissance" required>
+            <input class="input" type="text" id="addClientlieuNaissance" v-model="lieu_naissance" placeholder="A" required>
           </div>
       </div>
       <div class="input-field">
@@ -37,23 +37,19 @@
       <div class="input-field">
         <div> <label for="telephone">Adresse email et Numéro de téléphone </label></div>
         <div class="form-row">
-        <input class="input" id="addEmployeemail" v-model="email" placeholder="Email" required>
-        <input class="input" id="addEmployephone" v-model="contact"  required>
+        <input class="input" id="addClientemail" v-model="email" placeholder="Email" required>
+        <input class="input" id="addClientphone" v-model="telephone"  required>
       </div>
       </div>
       
       <div class="input-field">
         <div> <label for="name">Localisation</label></div>
-        <input class="input" type="text" id="addEmployelocalisation" v-model="localisation" required>
+        <input class="input" type="text" id="addClientlocalisation" v-model="localisation" required>
       </div>
-      <div class="input-field">
-        <div> <label for="name">Type d'utilisateur</label></div><br>
-        <input type="text" id="addEmployetype_u" v-model="type_u" value="Employé" required readonly>
-      </div><br>
       <div class="input-field">
         <div><label for="password">Mot de passe:</label></div>
         <div>
-          <input class="input" type="password" id="addEmployepassword" v-model="password" required>
+          <input class="input" type="password" id="addClientpassword" v-model="mot_de_passe" required>
 
         </div>
       </div>
@@ -70,16 +66,16 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '',
-      surname: '',
+      nom: '',
+      prenom: '',
       date_naissance: '',
+      lieu_naissance: '',
       sexe: '',
-      contact: '',
+      telephone: '',
       email: '',
       localisation: '',
-      type_u: 'Employé(e)',
-      password: '',
-      admin_id: '', // Ajouter l'ID de l'admin ici
+      mot_de_passe: '',
+      create_by: '', 
       successMessage: '',
       errorMessage: ''
     };
@@ -87,30 +83,26 @@ export default {
   mounted() {
   },
   methods: {
-    async addEmploye() {
+    
+    async addClient() {
       try {
-        const response = await axios.post('http://localhost:3000/addEmploye', {
-          id_admin: localStorage.getItem('userId'),
-          username: this.username,
-          type_u: this.type_u,
+        const response = await axios.post('http://localhost:3000/addClient', {
+          create_by: localStorage.getItem('userId'),
+          nom: this.nom,
           sexe: this.sexe,
-          surname: this.surname,
-          date_naissance: this.date_naissance,
-          contact: this.contact,
+          prenom: this.prenom,
+          date_naissance: new Date(this.date_naissance),
+          telephone: this.telephone,
           email: this.email,
           localisation: this.localisation,
-          password: this.password
+          lieu_naissance: this.lieu_naissance,
+          mot_de_passe: this.mot_de_passe
         }, {
         });
 
         console.log(response.data.message);
       } catch (error) {
-        // Vérifier si l'erreur est liée à l'authentification
-        if (error.response && error.response.status === 401) {
-          console.log('Erreur d\'authentification');
-        } else {
-          console.log('Echec de l\'ajout de l\'employé');
-        }
+          console.log('Echec de l\'ajout du client');
       }
     }
   }
@@ -211,7 +203,7 @@ label {
 left: 100%;
 }
 
-.pas {
+/*.pas {
   font-weight: 700;
   color: rgb(2, 34, 72);
   font-size: 14px;
@@ -220,7 +212,7 @@ left: 100%;
 .pas a {
   text-decoration: none;
   color: orangered;
-}
+}*/
 
 .loading-indicator::after {
   content: "";
