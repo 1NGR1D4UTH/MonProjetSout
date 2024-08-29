@@ -9,9 +9,8 @@
                 <li style="background-color: rgba(0, 0, 0, 0.1);"><router-link to="/acceuilPage" style="text-decoration: none;"><i class="fa fa-home"></i>Home</router-link></li>
                 <li class="dropdown"><router-link to="/ClientPage" style="text-decoration: none;"><i class="fa fa-users"></i>Client</router-link>
                     <div class="dropdown-content">
-                        <router-link to="/AjouterProduit" style="text-decoration: none;">Ajouter</router-link>
-                        <router-link to="/SupprimerProduit" style="text-decoration: none;">Modifier</router-link>
-                        <router-link to="/ModifierProduit" style="text-decoration: none;">Supprimer</router-link>
+                        <router-link to="/AjouterClient" style="text-decoration: none;">Ajouter</router-link>
+                        <router-link to="/MesuresClient" style="text-decoration: none;">Mesures</router-link>
                     </div>
                 </li>
                 <li ><router-link to="/CommandePage" style="text-decoration: none;"><i class="fa fa-file"></i>Commande</router-link></li>
@@ -25,8 +24,8 @@
                 <li class="dropdown"><router-link to="/EmployePage" style="text-decoration: none;"><i class="fa fa-user"></i>Employe</router-link>
                     <div class="dropdown-content">
                         <router-link to="/AjouterEmploye" style="text-decoration: none;">Ajouter</router-link>
-                        <router-link to="/SupprimerEmploye" style="text-decoration: none;">Modifier</router-link>
-                        <router-link to="/ModifierEmploye" style="text-decoration: none;">Supprimer</router-link>
+                        <router-link to="/ModifierEmploye" style="text-decoration: none;">Modifier</router-link>
+                        <router-link to="/SupprimerEmploye" style="text-decoration: none;">Supprimer</router-link>
                         <router-link to="/Désactiver" style="text-decoration: none;">Désactiver compte </router-link>
                     </div>
                 </li>

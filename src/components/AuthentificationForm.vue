@@ -41,6 +41,7 @@ export default {
     };
   },
   methods: {
+    
     async login() {
       try {
         const response = await axios.post('http://localhost:3000/login', {
