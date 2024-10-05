@@ -131,6 +131,7 @@ export default {
     border-radius: 10px;
     padding: 15px;
     /*margin-top: 100px;*/
+    background-color: white;
   }
   
   form {

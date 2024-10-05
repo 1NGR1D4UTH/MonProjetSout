@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="form-action">
-                        <button type="submit" class="btn-suivant">Confirmer</button>
+                        <button type="submit" class="btn-suivant">Ajouter</button>
                     </div>
                 </div>
                 <!-- <div v-if="currentStep === 2" class="step-3">

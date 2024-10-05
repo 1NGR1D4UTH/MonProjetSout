@@ -84,8 +84,8 @@ body {
     top: auto;
     background-color: rgba(0,0,0,0.2);
     left: 30%;
-    width: 100vx;
-    height: 100vh;
+    width: 50em;
+    /*height: 100vh;*/
 }
 
 .command-interface {
