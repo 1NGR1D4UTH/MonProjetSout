@@ -21,7 +21,7 @@
           <button class="btn" type="submit">
             Se connecter
           </button>
-          <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p>
+          <!-- <p>vous n'avez pas de compte? <router-link to="/CreateAccount">S'inscrire</router-link></p> -->
         </div>
       </form>
       <p v-if="error">{{ error }}</p>

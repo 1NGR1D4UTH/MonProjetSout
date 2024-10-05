@@ -1,42 +1,56 @@
 <template>
-  <NavBarPage/>
-  <div class="full-background">
-  <div class="container">
-        <header>
-            <h1>Clients</h1>
-            <nav>
-                <a href="#">Clients</a> / <span>Liste</span>
-            </nav>
-        </header>
+    <NavBarPage />
+    <div class="full-background">
+        <div class="container">
+            <header>
+                <h1>Clients</h1>
+                <nav>
+                    <a href="#">Clients</a> / <span>Liste</span>
+                </nav>
+            </header>
 
-        <div class="search-bar">
-            <input type="text" placeholder="🔍 Search...">
-            <div class="btn btn-edit"><router-link to="/AjouterClient" >+ Ajouter un client </router-link> </div> 
-        </div>
+            <div class="search-bar">
+                <input type="text" placeholder="🔍 Search...">
+                <div class="btn btn-edit"><router-link to="/AjouterClient">+ Ajouter un client </router-link> </div>
+            </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Téléphone</th>
-                    <th>Localisation</th>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>nom</th>
+                        <th>telephone</th>
+                        <th>localisation</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Les lignes des clients seront ajoutées ici dynamiquement -->
-            </tbody>
-        </table>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-row" v-for="(client, index) in clients" v-bind:key="client.id">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ client.nom }}</td>
+                        <td>{{ client.telephone }}</td>
+                        <td>{{ client.localisation }}</td>
+                        <td>
+                            <i class="fas fa-edit" @click="showEditModal(client)"
+                                style="cursor: pointer; color: blue; margin-right: 10px;" title="Modifier"></i>
+                            <i class="fas fa-trash" @click="deleteModal(client.email)"
+                                style="cursor: pointer; color: red;" title="Supprimer"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!--<div class="pagination">
+            <!--<div class="pagination">
             <span>&laquo;</span>
             <span>&raquo;</span>
         </div>-->
+        </div>
     </div>
-</div>
 </template>
 <script>
 import NavBarPage from './NavBarPage.vue';
+import axios from 'axios';
+import config from '../config';
 export default {
 
     components: {
@@ -44,18 +58,42 @@ export default {
     },
     data() {
         return {
-
+            clients: [],
         };
     },
     mounted() {
+        this.getClient();
     },
     methods: {
+        async deleteModal(email) {
+            const confirmDelete = confirm("Êtes-vous sûr de vouloir supprimer ce client ?");
+            if (confirmDelete) {
+                await this.deleteClient(email);
+            }
+        },
+        async deleteClient(email) {
+            try {
+                await axios.delete(`http://localhost:3000/client/${email}`);
+                console.log('supprime');
+                window.location.reload();
+                
+            } catch (error) {
+                console.error('Erreur lors de la suppression de l\'employé:', error);
+            }
+        },
+        async getClient() {
+            try {
+                const response = await axios.get(`${config.apiBaseUrl}/addClient`);
+                this.clients = response.data;
+            } catch (error) {
+                console.error('Erreur lors de la récupération des clients :', error);
+            }
+        },
     }
 };
 </script>
 
 <style scoped>
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -65,8 +103,10 @@ body {
 
 .full-background {
     background-color: rgba(0, 0, 0, 0.1);
-    height: 100vh; /* Prend toute la hauteur de la page */
-    padding: 20px; /* Ajoute un peu d'espace autour */
+    height: 100vh;
+    /* Prend toute la hauteur de la page */
+    padding: 20px;
+    /* Ajoute un peu d'espace autour */
 }
 
 .container {
@@ -167,5 +207,4 @@ table tbody td {
 .pagination span:hover {
     color: #333;
 }*/
-
 </style>
