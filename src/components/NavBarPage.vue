@@ -7,34 +7,22 @@
             </div>
             <ul>
                 <li style="background-color: rgba(0, 0, 0, 0.1);"><router-link to="/acceuilPage" style="text-decoration: none;"><i class="fa fa-home"></i>Home</router-link></li>
-                <li class="dropdown"><router-link to="/ClientPage" style="text-decoration: none;"><i class="fa fa-users"></i>Client</router-link>
+                <li><router-link to="/ClientPage" style="text-decoration: none;"><i class="fa fa-users"></i>Client</router-link></li>
+                <li><router-link to="/CommandePage" style="text-decoration: none;"><i class="fa fa-file"></i>Commande</router-link></li>
+                <li><router-link to="/StockPage" style="text-decoration: none;"><i class="fa fa-folder"></i>Stock</router-link></li>
+                <li><router-link to="/EmployePage" style="text-decoration: none;"><i class="fa fa-user"></i>Employe</router-link></li>
+                <li class="dropdown"><router-link to="/ProfilPage" style="text-decoration: none;"><i class="fa fa-cog"></i>Profil</router-link>
                     <div class="dropdown-content">
-                        <router-link to="/AjouterClient" style="text-decoration: none;">Ajouter</router-link>
-                        <router-link to="/MesuresClient" style="text-decoration: none;">Mesures</router-link>
+                        <router-link to="/CatalogueAdmin" style="text-decoration: none;">Catalogue</router-link>
+                        <router-link to="/AjouterModel" style="text-decoration: none;">Ajouter un modèle</router-link>
+                        <router-link to="/Se deconnecter" style="text-decoration: none;">Se deconnecter</router-link>
                     </div>
                 </li>
-                <li ><router-link to="/CommandePage" style="text-decoration: none;"><i class="fa fa-file"></i>Commande</router-link></li>
-                <li class="dropdown"><router-link to="/StockPage" style="text-decoration: none;"><i class="fa fa-folder"></i>Stock</router-link>
-                    <div class="dropdown-content">
-                        <router-link to="/AjouterProduit" style="text-decoration: none;">Ajouter</router-link>
-                        <router-link to="/SupprimerProduit" style="text-decoration: none;">Modifier</router-link>
-                        <router-link to="/ModifierProduit" style="text-decoration: none;">Supprimer</router-link>
-                    </div>
-                </li>
-                <li class="dropdown"><router-link to="/EmployePage" style="text-decoration: none;"><i class="fa fa-user"></i>Employe</router-link>
-                    <div class="dropdown-content">
-                        <router-link to="/AjouterEmploye" style="text-decoration: none;">Ajouter</router-link>
-                        <router-link to="/ModifierEmploye" style="text-decoration: none;">Modifier</router-link>
-                        <router-link to="/SupprimerEmploye" style="text-decoration: none;">Supprimer</router-link>
-                        <router-link to="/Désactiver" style="text-decoration: none;">Désactiver compte </router-link>
-                    </div>
-                </li>
-                <li><router-link to="/ProfilPage" style="text-decoration: none;"><i class="fa fa-cog"></i>Profil</router-link></li>
 
             </ul>
         </nav> 
 </template>
-<style>
+<style scoped>
 
 nav {
     width: 100%;

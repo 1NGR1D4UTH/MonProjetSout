@@ -17,6 +17,10 @@
         <input class="input" type="date" id="updateEmployebirthday" v-model="date_naissance">
       </div>
       <div class="input-field">
+        <div> <label for="name">Lieu de naissance</label></div>
+        <input class="input" type="date" id="updateEmployeplace" v-model="lieu_naissance">
+      </div>
+      <div class="input-field">
         <div> <label for="name">Sexe</label></div>
         <select id="sexe" v-model="sexe" required>
           <option value="client">Feminin</option>
@@ -68,6 +72,7 @@
           this.username = this.user.nom; 
           this.surname = this.user.prénom;
           this.date_naissance = this.user.date_de_naissance;
+          this.lieu_naissance = this.user.lieu_naissance;
           this.sexe = this.user.sexe;
           this.contact = this.user.telephone; 
           this.localisation = this.user.localisation;

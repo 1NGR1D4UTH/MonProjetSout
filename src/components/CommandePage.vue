@@ -1,4 +1,5 @@
 <template>
+    <div class="full-background">
     <NavBarPage/>
     <div class="command-interface">
         <div class="header-buttons">
@@ -26,18 +27,15 @@
             <label for="end-date">Date de fin</label>
             <input type="text" id="end-date" placeholder="jj/mm/aaaa">
         </div>
-            <button class="search-button">Rechercher</button>
+            
         </div>
         <div class="order-status">
             <button class="status-button active">À traiter <span>0</span></button>
             <button class="status-button">En couture <span>0</span></button>
             <button class="status-button">Livrées au client <span>0</span></button>
         </div>
-        <div class="no-order">
-            Aucune commande
-        </div>
     </div>
-    
+</div>  
 </template>
 <script>
 import AjouterCommande from './AjouterCommande.vue';
@@ -75,12 +73,19 @@ body {
     height: 100%;
 }
 
+.full-background {
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Prend toute la hauteur de la page */
+    padding: 20px; /* Ajoute un peu d'espace autour */
+}
+
 .commande{
     position: absolute;
     top: auto;
     background-color: rgba(0,0,0,0.2);
-   left: 30%;
-   width: 700px;
+    left: 30%;
+    width: 100vx;
+    height: 100vh;
 }
 
 .command-interface {
@@ -114,12 +119,6 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-
-/*.tabs {
-    display: flex;
-    border-bottom: 1px solid #dee2e6;
-    margin-bottom: 20px;
-}*/
 
 .tab {
     background-color: transparent;
@@ -199,10 +198,4 @@ body {
     font-size: 12px;
 }
 
-.no-order {
-    color: #6c757d;
-    text-align: center;
-    margin-top: 20px;
-    padding: 10px;
-}
 </style>

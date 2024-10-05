@@ -1,274 +1,587 @@
 <template>
+    <NavBarPage />
+    <div class="full-background">
+        <div class="container">
+            <header>
+                <h1>Ajout Client</h1>
+                <nav>
+                    <router-link to="#">Clients</router-link> / <span>Ajout client</span>
+                </nav>
+            </header>
 
-  <div class="container monda-font animate__animated animate__fadeInDown">
-    <nav>
-      <img src="" alt="" />
-    </nav>
-    <div>
-      <h2 class="monda-font">Ajouter un client</h2>
+            <!-- Stepper pour montrer les étapes -->
+            <div class="stepper">
+                <div class="step" :class="{ active: step === 1 }">
+                    <div class="icon" :class="{ completed: step > 1, current: step === 1 }"><i class="fas fa-user"></i></div>
+                    <span>INFORMATIONS CLIENT</span>
+                    <div class="line"></div>
+                </div>
+                <div class="step" :class="{ active: step === 2 }">
+                    <div class="icon" :class="{ completed: step > 2, current: step === 2 }"><i class="fas fa-ruler"></i></div>
+                    <span>MESURES CLIENT</span>
+                    <div class="line"></div>
+                </div>
+                <div class="step" :class="{ active: step === 3 }">
+                    <div class="icon" :class="{ completed: step === 3, current: step === 3 }"><i class="fas fa-check-circle"></i></div>
+                    <span>CONFIRMATION</span>
+                </div>
+            </div>
+
+            <!-- Formulaire pour chaque étape -->
+            <form @submit.prevent="handleSubmit">
+                <div v-if="currentStep === 1">
+                    <div class="form-section">
+                        <!-- Informations Client -->
+                        <div class="form-group">
+                            <label for="name">Nom et prénom</label>
+                            <div class="name-box">
+                                <input class="input" type="text" id="addClientusername" v-model="nom" required>
+                                <input class="input" type="text" id="addClientsurname" v-model="prenom" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Date et Lieu de naissance</label>
+                            <div class="name-box">
+                                <input class="input" type="date" id="addClientbirthday" v-model="date_naissance" required>
+                                <input class="input" type="text" id="addClientlieuNaissance" v-model="lieu_naissance" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Sexe">Sexe</label>
+                            <select id="sexe" v-model="sexe" required>
+                                <option value="Feminin">Feminin</option>
+                                <option value="Masculin">Masculin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="photoProfil">Photo de profil</label>
+                            <input type="file" id="signupprofile" @change="handleImageUpload" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Email et Numéro de téléphone</label>
+                            <div class="name-box">
+                                <input class="input" type="email" v-model="email" placeholder="Email" required>
+                                <input class="input" type="text" v-model="telephone" placeholder="Tel" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Localisation</label>
+                            <input class="input" type="text" v-model="localisation" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Mot de passe</label>
+                            <input class="input" type="password" v-model="mot_de_passe" required>
+                        </div>
+                    </div>
+
+                    <div class="form-action">
+                        <button type="button" @click="nextStep" class="btn-suivant">Suivant</button>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 2">
+                    <div class="form-section center-content">
+                        <!-- Fiche de mesures au-dessus des champs -->
+                        <div class="form-group full-width">
+                            <label for="ficheMesures">Fiche de mesures</label>
+                            <select id="ficheMesures" class="input" @change="setSelectedMeasures($event.target.value)">
+                                <option value="">Sélectionner une fiche de mesure</option>
+                                <option value="enfant">Mesures enfants</option>
+                                <option value="femme">Mesures femmes</option>
+                                <option value="homme">Mesures hommes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-action">
+                        <button type="button" @click="prevStep" class="btn-prev" style="display: flex;
+    justify-content: space-between;margin-top: 20px;">Précédent</button>
+                        <button type="button" @click="nextStep" class="btn-suivant">Suivant</button>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 3" class="step-3">
+                    <div class="profile-section center-content">
+                        <!-- Photo de profil et nom -->
+                        <div class="profile-section">
+                            <img :src="clientData.photo" alt="Photo du client" class="profile-pic" v-if="clientData.photo" />
+                            <h2>{{ clientData.nom }}</h2>
+                        </div>
+
+                        <!-- Informations personnelles -->
+                        <div class="personal-info">
+                            <p><strong>Sexe :</strong> {{ clientData.sexe }}</p>
+                            <p><strong>Téléphone :</strong> {{ clientData.telephone }}</p>
+                            <p><strong>E-mail :</strong> {{ clientData.email }}</p>
+                            <p><strong>Localisation :</strong> {{ clientData.localisation }}</p>
+                        </div>
+                        <div class="measurements-section">
+                            <h3>Mesures</h3>
+                            <div class="client-measures">
+                                <div v-for="(value, key) in clientData.mesures" :key="key">
+                                    <p><strong>{{ getMesureLabel(key) }} :</strong> {{ value }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-action">
+                        <button type="button" @click="prevStep" class="btn-prev" style="display: flex;justify-content: space-between;margin-top: 20px;">Précédent</button>
+                        <button type="submit" class="btn-suivant">Confirmer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <form @submit.prevent="addClient">
-      <div class="input-field">
-        <div> <label for="name">Nom et Prénom </label></div>
-        <div class="form-row">
-          <input class="input" type="text" id="addClientusername" v-model="nom" required>
-          <input class="input" type="text" id="addClientsurname" v-model="prenom" required>
-        </div>
-      </div>
-
-      <div class="input-field">
-        <div> <label for="name">Date et Lieu de naissance</label></div>
-        <div class="form-row">
-          <input class="input" type="date" id="addClientbirthday" v-model="date_naissance" required>
-          <input class="input" type="text" id="addClientlieuNaissance" v-model="lieu_naissance" placeholder="A"
-            required>
-        </div>
-      </div>
-      <div class="input-field">
-        <div> <label for="name">Sexe</label></div>
-        <select id="sexe" v-model="sexe" required>
-          <option value="Feminin">Feminin</option>
-          <option value="Masculin">Masculin</option>
-        </select>
-      </div><br>
-      <!--<div class="input-field">
-        <label for="photoProfil">Photo de profil</label><br><br>
-        <input type="file" id="signupprofile" @change="handleImageUpload" />
-      </div><br>-->
-      <div class="input-field">
-        <div> <label for="telephone">Adresse email et Numéro de téléphone </label></div>
-        <div class="form-row">
-          <input class="input" id="addClientemail" v-model="email" placeholder="Email" required>
-          <input class="input" id="addClientphone" v-model="telephone" required>
-        </div>
-      </div>
-
-      <div class="input-field">
-        <div> <label for="name">Localisation</label></div>
-        <input class="input" type="text" id="addClientlocalisation" v-model="localisation" required>
-      </div>
-      <div class="input-field">
-        <div><label for="password">Mot de passe:</label></div>
-        <div>
-          <input class="input" type="password" id="addClientpassword" v-model="mot_de_passe" required>
-
-        </div>
-      </div>
-      <button class="btn" type="submit">
-        <span>Ajouter</span>
-      </button>
-    </form>
-
-  </div>
 </template>
 
 <script>
+import NavBarPage from './NavBarPage.vue';
 import axios from 'axios';
+
 export default {
-  data() {
-    return {
-      nom: '',
-      prenom: '',
-      date_naissance: null,
-      lieu_naissance: '',
-      sexe: '',
-      telephone: '',
-      email: '',
-      localisation: '',
-      mot_de_passe: '',
-      create_by: '',
-      successMessage: '',
-      errorMessage: ''
-    };
-  },
-  mounted() {
-  },
-  methods: {
-    async addClient() {
-      try {
-        // Convertir date_naissance en objet Date si ce n'est pas déjà fait
-        const dateNaissance = new Date(this.date_naissance);
-
-        // Vérifiez si la date est valide
-        if (isNaN(dateNaissance.getTime())) {
-          throw new Error('Date de naissance invalide');
+    components: {
+        NavBarPage
+    },
+    data() {
+        return {
+            currentStep: 1, // Étape initiale
+            nom: '',
+            prenom: '',
+            date_naissance: null,
+            lieu_naissance: '',
+            sexe: '',
+            telephone: '',
+            email: '',
+            localisation: '',
+            mot_de_passe: '',
+            clientData: {
+                nom: '',
+                sexe: '',
+                telephone: '',
+                email: '',
+                localisation: '',
+                photo: '', // Image uploadée
+                mesures: {} // Stockera les mesures en fonction de la sélection
+            },
+            mesuresDisponibles: {
+                enfant: {
+                    // Ajouter ici les mesures spécifiques pour les enfants
+                    carrure: '',
+                    poitrine: '',
+                    taille: '',
+                    // Ajoutez d'autres mesures nécessaires
+                },
+                femme: {
+                    // Ajouter ici les mesures spécifiques pour les femmes
+                    carrure: '',
+                    poitrine: '',
+                    taille: '',
+                    // Ajoutez d'autres mesures nécessaires
+                },
+                homme: {
+                    // Ajouter ici les mesures spécifiques pour les hommes
+                    carrure: '',
+                    poitrine: '',
+                    taille: '',
+                    // Ajoutez d'autres mesures nécessaires
+                }
+            }
+        };
+    },
+    methods: {
+        setSelectedMeasures(type) {
+            if (type in this.mesuresDisponibles) {
+                this.clientData.mesures = { ...this.mesuresDisponibles[type] }; // Charger les mesures spécifiques
+            } else {
+                this.clientData.mesures = {}; // Réinitialiser si aucune option n'est sélectionnée
+            }
+        },
+        prevStep() {
+            if (this.currentStep > 1) {
+                this.currentStep--;
+            }
+        },
+        nextStep() {
+            // Validation des étapes avant de passer à la suivante
+            if (this.currentStep === 1) {
+                this.currentStep++;
+            } else if (this.currentStep === 2) {
+                // Pas de simulation ici, les mesures seront chargées en fonction de la sélection
+                this.currentStep++;
+                this.clientData.nom = `${this.nom} ${this.prenom}`;
+                this.clientData.sexe = this.sexe;
+                this.clientData.telephone = this.telephone;
+                this.clientData.email = this.email;
+                this.clientData.localisation = this.localisation;
+                this.clientData.photo = this.photo; // Assurez-vous que cela est défini dans handleImageUpload
+            }
+        },
+        handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.clientData.photo = e.target.result; // Enregistrez l'image dans clientData
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+        getMesureLabel(key) {
+            // Fonction pour obtenir le label de la mesure en fonction de la clé
+            const labels = {
+                carrure: 'Carrure',
+                poitrine: 'Poitrine',
+                taille: 'Taille'
+                // Ajoutez d'autres labels si nécessaire
+            };
+            return labels[key] || key; // Retournez la clé par défaut si non trouvé
+        },
+        async handleSubmit() {
+            try {
+                // Envoyer les données au backend
+                await axios.post('/api/client', this.clientData);
+                alert('Client ajouté avec succès !');
+                // Réinitialisez le formulaire ou redirigez selon vos besoins
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout du client :', error);
+            }
         }
-
-        const response = await axios.post('http://localhost:3000/addClient', {
-          create_by: localStorage.getItem('userId'),
-          nom: this.nom,
-          sexe: this.sexe,
-          prenom: this.prenom,
-          date_naissance: dateNaissance.toISOString().split('T')[0], // Format YYYY-MM-DD
-          telephone: this.telephone,
-          email: this.email,
-          localisation: this.localisation,
-          lieu_naissance: this.lieu_naissance,
-          mot_de_passe: this.mot_de_passe
-        });
-
-        console.log(response.data.message);
-      } catch (error) {
-        console.log('Echec de l\'ajout du client', error.response ? error.response.data : error.message);
-      }
     }
-  }
 };
-
 </script>
 
-
-<style>
-h2 {
-  font-size: 40px;
-  font-weight: bold;
-  color: rgb(2, 34, 72);
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
+<style scoped>
+body {
+   font-family: Arial, sans-serif;
+   background-color: #f9f9f9;
+   margin: 0;
+   padding: 0;
 }
-
-.form-row {
-  display: flex;
-  gap: 10px;
-  /* Espace entre les champs */
-}
-
-.input {
-  flex: 1;
-  /* Pour que les champs prennent la même largeur */
-}
-
-.stext {
-  color: rgba(0, 0, 0, 0.2);
-  font-size: 13px;
-  margin-top: -20px;
+.full-background {
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Prend toute la hauteur de la page */
+    padding: 20px; /* Ajoute un peu d'espace autour */
 }
 
 .container {
-  text-align: left;
-  width: 700px;
-  margin: auto;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 15px;
-  /*margin-top: 100px;*/
+   max-width: 1200px;
+   margin: 50px auto;
+   padding: 20px;
+   background-color: white;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   border-radius: 8px;
 }
 
-form {
-  width: 100%;
-  margin-top: 5px;
-
+header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: 1px solid #eaeaea;
+   padding-bottom: 15px;
 }
 
-.monda-font {
-  font-family: 'Monda', sans-serif;
+h1 {
+   font-size: 24px;
+   margin: 0;
+}
+
+nav a {
+   text-decoration: none;
+   color: #888;
+}
+
+nav span {
+   color: #aaa;
+}
+
+.stepper {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: 20px 0;
+   padding: 0 20px; /* Ajoutez du padding pour éloigner un peu les éléments des bords */
+   position: relative; 
+   /* Pour positionner les lignes */
+   /*padding-bottom: 20px;
+   border-bottom: 1px solid #eaeaea;*/
+}
+
+.step {
+   text-align: center;
+   position: relative; /* Nécessaire pour positionner la ligne */
+}
+
+.line {
+   content: '';
+   position: absolute;
+   top: 25px; /* Ajustez cette valeur selon vos besoins */
+   width: 100%; /* Longueur de la ligne */
+   height: 2px; /* Épaisseur de la ligne */
+   background-color: #ccc; /* Couleur de la ligne */
+   z-index: -1; /* Pour que la ligne soit derrière les icônes et le texte */
+}
+
+.step:first-child .line {
+   display: none; /* Pas de ligne avant la première étape */
+}
+
+.step:not(:last-child) .line {
+   left: 50%; /* Centre la ligne */
+   transform: translateX(-50%); /* Corrige la position pour centrer la ligne */
+}
+
+/*.icon i {
+   font-size: 24px;  /* Ajuste la taille de l'icône */
+   /*color: #667882;    Exemple de couleur pour la confirmation (vert) 
+   margin-right: 5px;
+}*/
+
+/* .step .icon i.fa-ruler {
+   color: #667882;  Exemple de couleur pour les mesures (jaune) 
+}*/
+
+/*.step .icon i.fa-check-circle {
+   color: #667882;   Exemple de couleur pour la confirmation (vert) 
+}*/
+
+.icon {
+   width: 50px;
+   height: 50px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   background-color: #ddd;  /* Couleur par défaut du fond */
+   transition: background-color 0.3s ease;  /* Transition douce */
+}
+
+/* Couleur quand l'étape est en cours */
+.icon.current {
+   background-color: #ffc107; /* Couleur en cours (par exemple, jaune) */
+}
+
+.step .icon {
+   font-size: 24px;
+   background-color: #eaeaea;
+   color: #666;
+   width: 50px;
+   height: 50px;
+   line-height: 50px;
+   border-radius: 50%;
+   margin: 0 auto 10px auto;
+}
+
+.step.active .icon {
+   background-color: #007bff;
+   color: white;
+}
+
+.step span {
+   font-size: 14px;
+   color: #666;
+}
+
+.form-section {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 20px;
+   margin-top: 20px;
+}
+
+.name-box {
+   display: flex;
+   gap: 20px; /* Espace entre le nom et le prénom */
 }
 
 .input {
-  width: 98%;
-  height: 30px;
-  border: none;
-  background: transparent;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  outline: none;
-  margin-top: 5px;
-
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   font-size: 16px;
+   padding: 10px;
+   width: 100%; /* Assurez-vous que les inputs prennent 100% de la largeur disponible */
 }
 
 
-input:nth-child(2) {
-  margin-bottom: 20px;
+.form-group {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 20px;
 }
 
-label {
-  font-weight: 700;
-  font-size: 16px;
-  color: rgb(2, 34, 72);
-
+.form-group label {
+   font-size: 14px;
+   color: #666;
+   margin-bottom: 5px;
 }
 
-.mot {
-  color: rgb(2, 34, 72);
-  font-weight: 500;
-  font-size: 15px;
+.form-group input, 
+.form-group select {
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   font-size: 16px;
 }
 
-.affiche {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-left: 38% !important;
+.form-btn{
+   display: flex;
+   justify-content: center; /* Centre le contenu horizontalement */
+   margin-top: 20px; /* Espace au-dessus du bouton */
+}
+
+.form-action {
+   /*text-align: right;*/
+   display: flex;
+   justify-content: flex-end;
+   margin-top: 20px;
 }
 
 .btn {
-  margin-top: 20px;
-  font-size: 17px;
-  background: rgb(2, 34, 72);
-  border: none;
-  width: 50%;
-  border-radius: 10px;
-  height: 35px;
-  color: white;
-  left: 100%;
+ margin-top: 20px;
+ font-size: 17px;
+ background: rgb(2, 34, 72);
+ border: none;
+ width: 20%;
+ border-radius: 20px;
+ height: 35px;
+ color: white;
+ left: 50%;
 }
 
-/*.pas {
-  font-weight: 700;
-  color: rgb(2, 34, 72);
-  font-size: 14px;
+.btn-prev {
+   background-color: #007bff;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 20px;
+   font-size: 16px;
+   cursor: pointer;
 }
 
-.pas a {
-  text-decoration: none;
-  color: orangered;
+.btn-suivant {
+   background-color: #007bff;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 20px;
+   font-size: 16px;
+   cursor: pointer;
+}
+
+.input {
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   width: 100%;
+}
+
+.center-content {
+   display: flex;
+   flex-direction: column;
+   align-items: center; /* Centre horizontalement */
+   justify-content: center; /* Centre verticalement */
+}
+
+.full-width {
+   width: 50%; /* Assure que l'élément prend toute la largeur */
+}
+
+
+.profile-section {
+ background-color: #fff;
+ padding: 20px;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ max-width: 600px;
+ margin: auto;
+}
+
+.profile-header {
+ text-align: center;
+}
+
+.profile-picture {
+ width: 100px;
+ height: 100px;
+ border-radius: 50%;
+ object-fit: cover;
+ margin-bottom: 10px;
+}
+
+.personal-info {
+ text-align: left;
+ width: 100%;
+ margin-top: 20px;
+}
+
+.personal-info p {
+ font-size: 20px;
+ margin: 5px 0;
+}
+
+.measurements-section {
+ margin-top: 30px;
+ width: 100%;
+}
+
+.measurements-section h3 {
+ font-size: 18px;
+ margin-bottom: 10px;
+}
+
+.measurements-table {
+ width: 100%;
+ border-collapse: collapse;
+}
+
+.measurements-table td {
+ padding: 10px;
+ border-bottom: 1px solid #ddd;
+ font-size: 16px;
+}
+/*.table-mesures {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+}
+
+.table-mesures th, .table-mesures td {
+   padding: 10px;
+   text-align: left;
+   border-bottom: 1px solid #ccc;
+}
+
+.table-mesures th {
+   background-color: #f8f9fa;
+   color: #6c757d;
+   text-align: center;
+}
+
+.btn-retirer {
+   background-color: #ffc107;
+   border: none;
+   color: white;
+   padding: 5px 10px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+.btn-ajouter {
+   background-color: #28a745;
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   border-radius: 4px;
+   cursor: pointer;
+   margin-top: 10px;
+   display: block;
+   margin-left: auto; /* Aligne le bouton à droite */
+   /*margin-right: 0;
 }*/
-
-.loading-indicator::after {
-  content: "";
-  display: inline-block;
-  width: 23px;
-  height: 23px;
-  border-radius: 50%;
-  border: 3px solid #06283D;
-  border-top-color: rgb(2, 34, 72);
-  border-bottom-color: rgb(2, 34, 72);
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-indicator {
-  display: flex;
-  justify-content: center;
-  height: 100px;
-}
-
-/*type file*/
-.box {
-  font-size: 15px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  outline: none;
-}
-
-::-webkit-file-upload-button {
-  color: white;
-  background: rgb(2, 34, 72);
-  padding: 10px;
-  border: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
-  outline: none;
-}
-
-::-webkit-file-upload-button:hover {
-  background: rgb(2, 34, 72);
-}
 </style>

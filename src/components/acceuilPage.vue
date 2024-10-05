@@ -7,13 +7,15 @@
                 <div ><div class="details" style="text-align:right;  margin-top:5px; font-size: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; ">
                 <h3>Nombre de clients</h3>
                 <p>3</p>
-                <span class="status red">+1  </span>
-                </div> </div>
+              <!--  <span class="status red">+1  </span> -->
+                </div> 
+                </div>
                 <div class="marg"> <div class="details" style="text-align:right; margin-top:5px; font-size: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
                 <h3>Nombre de commandes</h3>
                 <p>3</p>
-                <span class="status red">+1 </span>
-                </div></div>
+              <!-- <span class="status red">+1 </span> -->
+                </div>
+                </div>
                 
             </section>
             <section class="sect2">
@@ -25,10 +27,16 @@
                     <div class="details" style="text-align:right; padding:5px; font-size: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
                 <h3>Quantité en stock</h3>
                 <p>3</p>
-                <span class="status red">+1 </span>
+                <!--<span class="status red">+1 </span> -->
                 </div>
                 </div>
-                <div class="d2"></div>
+                <div class="d2">
+                    <div class="details" style="text-align:right; padding:5px; font-size: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+                <h3>Nombre d'employés</h3>
+                <p>3</p>
+               <!-- <span class="status red">+1 </span> -->
+                </div>
+                </div>
             </section>
         </div>
         

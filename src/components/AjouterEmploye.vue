@@ -1,5 +1,4 @@
 <template>
-
   <div class="container monda-font animate__animated animate__fadeInDown">
     <nav>
       <img src="" alt="" />
@@ -67,12 +66,14 @@
 
 <script>
 import axios from 'axios';
+import config from '../config'
 export default {
   data() {
     return {
       username: '',
       surname: '',
       date_naissance: '',
+      lieu_naissance: '',
       sexe: '',
       contact: '',
       email: '',
@@ -89,13 +90,14 @@ export default {
   methods: {
     async addEmploye() {
       try {
-        const response = await axios.post('http://localhost:3000/addEmploye', {
+        const response = await axios.post(`${config.apiBaseUrl}/addEmploye`, {
           id_admin: localStorage.getItem('userId'),
           username: this.username,
           type_u: this.type_u,
           sexe: this.sexe,
           surname: this.surname,
           date_naissance: this.date_naissance,
+          lieu_naissance: this.lieu_naissance,
           contact: this.contact,
           email: this.email,
           localisation: this.localisation,
@@ -119,7 +121,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 h2 {
   font-size: 40px;
   font-weight: bold;

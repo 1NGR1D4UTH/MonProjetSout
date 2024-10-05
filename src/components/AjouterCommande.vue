@@ -8,15 +8,15 @@
     <form @submit.prevent="addCommand">
       <div class="input-field">
         <div> <label for="name">Montant </label></div>
-        <input class="input" type="text" id="addCommandamount" v-model="amount" required>
+        <input class="input" type="text" id="addCommandmontant" v-model="montant" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Montant versé </label></div>
-        <input class="input" type="text" id="addCommandadvance_amount" v-model="advance_amount" required>
+        <input class="input" type="text" id="addCommandmontant_verse" v-model="montant_verse" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Montant restant </label></div>
-        <input class="input" type="text" id="addCommandrest_amount" v-model="rest_amount" required>
+        <input class="input" type="text" id="addCommandmontant_restant" v-model="montant_restant" required>
       </div>
       
       <!--<div class="input-field">
@@ -25,7 +25,7 @@
       </div><br>-->
       <div class="input-field">
         <div> <label for="name">Nom du modèle </label></div>
-        <input class="input" type="text" id="addCommandmodel" v-model="model" required>
+        <input class="input" type="text" id="addCommandnom_modele" v-model="nom_modele" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Date </label></div>
@@ -34,14 +34,14 @@
       <div class="input-field">
         <div> <label for="name">Statut</label></div>
         <select id="sexe" v-model="statut" required>
-          <option value="client">A traiter</option>
-          <option value="admin">En couture</option>
-          <option value="admin">Livré au client</option>
+          <option value="A traiter">A traiter</option>
+          <option value="En couture">En couture</option>
+          <option value="Livré au client">Livré au client</option>
         </select>
       </div><br>
       <div class="input-field">
         <div> <label for="name">Type de tissu </label></div>
-        <input class="input" type="text" id="addCommandtissue" v-model="tissue" required>
+        <input class="input" type="text" id="addCommandtype_tissu" v-model="type_tissu" required>
       </div>
     
       <button class="btn" type="submit">
@@ -57,14 +57,14 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      amount: '',
-      advance_amount: '',
-      rest_amount: '',
-      model: '',
+      montant: '',
+      montant_verse: '',
+      montant_restant: '',
+      nom_modele: '',
       date: '',
       statut: '',
-      tissue: '',
-      id_client: '', // Ajouter l'ID de l'admin ici
+      type_tissu: '',
+      id_client: '', // Ajouter l'ID de l' ici
       create_by: '', 
       successMessage: '',
       errorMessage: ''
@@ -78,13 +78,13 @@ export default {
       try {
         const response = await axios.post('http://localhost:3000/addCommand', {
           create_by: localStorage.getItem('userId'),
-          amount: this.amount,
-          advance_amount: this.advance_amount, 
-          rest_amount: this.rest_amount,
-          model: this.model,
+          montant: this.montant,
+          montant_verse: this.montant_verse, 
+          montant_restant: this.montant_restant,
+          nom_modele: this.nom_modele,
           date: (this.date),
           statut: this.statut,
-          tissue: this.tissue
+          type_tissu: this.type_tissu
           
         }, {
         });
@@ -99,7 +99,7 @@ export default {
 
 </script>
     
-<style>
+<style scoped>
   h2 {
     font-size: 40px;
     font-weight: bold;

@@ -6,60 +6,52 @@
     <div>
       <h2 class="monda-font">Inscription</h2>
     </div>
-    <form @submit.prevent="createAcount">
+    <form @submit.prevent="createAccount">
       <div class="input-field">
         <div> <label for="name">Nom </label></div>
-        <input class="input" type="text" id="signupusername" v-model="username" required>
+        <input class="input" type="text" id="nom" v-model="nom" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Prénom </label></div>
-        <input class="input" type="text" id="signupsurname" v-model="surname" required>
-      </div>
-      <div class="input-field">
-        <div> <label for="name">Date de naissance</label></div>
-        <input class="input" type="date" id="signupbirthday" v-model="date_naissance" required>
+        <input class="input" type="text" id="prenom" v-model="prenom" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Sexe</label></div>
         <select id="sexe" v-model="sexe" required>
-          <option value="client">Feminin</option>
-          <option value="admin">Masculin</option>
+          <option value="Feminin">Feminin</option>
+          <option value="Masculin">Masculin</option>
         </select>
       </div><br>
-      <!--<div class="input-field">
+      <div class="input-field">
         <label for="photoProfil">Photo de profil</label><br><br>
-        <input type="file" id="signupprofile" @change="handleImageUpload" />
-      </div><br>-->
+        <input type="file" id="avatar" @change="handleImageUpload" />
+      </div><br>
       <div class="input-field">
         <div> <label for="telephone">Telephone</label></div>
-        <input class="input" id="signupphone" v-model="contact" required>
+        <input class="input" id="phoneNumberU" v-model="phoneNumberU" required>
       </div>
       <div class="input-field">
         <div> <label for="telephone">Email</label></div>
-        <input class="input" id="signupemail" v-model="email" required>
+        <input class="input" id="mail" v-model="mail" required>
       </div>
       <div class="input-field">
         <div> <label for="name">Localisation</label></div>
-        <input class="input" type="text" id="signuplocalisation" v-model="localisation" required>
+        <input class="input" type="text" id="localisation" v-model="localisation" required>
       </div>
-      <div class="input-field">
+      <!--<div class="input-field">
         <div> <label for="name">Type d'utilisateur</label></div><br>
-        <select id="type_u" v-model="type_u" required>
-          <option value="client">Client</option>
-          <option value="client">Employé</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div><br>
+        <input type="text" id="status" v-model="status" value="Admin" required readonly>
+      </div><br>-->
 
 
       <div class="input-field">
         <div><label for="password">Mot de passe:</label></div>
         <div>
-          <input class="input" type="password" id="signuppassword" v-model="password" required>
+          <input class="input" type="password" id="password" v-model="password" required>
 
         </div>
       </div>
-      <button class="btn" type="submit">
+      <button class="btn" @click="submit">
         <span>Inscription</span><br><br>
         <p style="color: black">vous avez un compte? <router-link to="/">Se connecter</router-link></p>
       </button>
@@ -70,6 +62,7 @@
 </template>
 <script>
 import axios from 'axios';
+import config from '../config';
 export default {
 
   components: {
@@ -77,31 +70,68 @@ export default {
   data() {
 
     return {
-
+      nom: '',
+      prenom: '',
+      sexe: '',
+      phoneNumberU: '',
+      mail: '',
+      localisation: '',
+      password: '',
+      successMessage: '',
+      errorMessage: ''
     };
   },
   mounted() {
   },
   methods: {
-    async createAcount() {
+    async createAccount() {
       try {
-        const response = await axios.post('http://localhost:3000/signup', {
-          username: this.username,
-          surname: this.surname,
-          date_naissance: this.date_naissance,
+        console.log("hey", this.nom);
+        console.log("hey", this.prenom);
+        console.log("hey", this.sexe);
+        console.log("hey", this.phoneNumberU);
+        console.log("hey", this.mail);
+        console.log("hey", this.localisation);
+        console.log("hey", this.password);
+
+        const response = await axios.post(`${config.apiBaseUrl}/users`, {
+          nom: this.nom,
+          prenom: this.prenom,
           sexe: this.sexe,
-          contact: this.contact,
-          email: this.email,
+          phoneNumberU: this.phoneNumberU,
+          mail: this.mail,
           localisation: this.localisation,
-          type_u: this.type_u,
-          password: this.password,
+          password: this.password
+
         });
-        
-        console.log(response.data.message);
+        console.log('Réponse du serveur :', response.data);
+        this.successMessage = 'Inscription réussie !';
+        alert('Compte crée avec Success');
+        this.resetForm();
+        this.$router.push('/');
       } catch (error) {
-        console.log('echec');
+        console.log('Erreur lors de la creation du compte:', error);
+        // Vérifiez si error.response et error.response.data existent
+        if (error.response) {
+          this.errorMessage = "Échec de l'inscription :" + error.response.data.message;
+        } else {
+          // Cas où error.response est indéfini, indiquant une autre erreur
+          this.errorMessage = "Échec de l'inscription : Une erreur s'est produite. Vérifiez votre connexion.";
+        }
+        alert('Echec lors de la création du compte')
       }
     },
+    resetForm() {
+      this.nom = '';
+      this.prenom = '';
+      this.sexe = '',
+      this.phoneNumberU = '';
+      this.mail = '';
+      this.localisation = '';
+      this.password = '';
+      this.successMessage = '';
+      this.errorMessage = '';
+    }
   }
 };
 

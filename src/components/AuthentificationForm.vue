@@ -10,8 +10,8 @@
       </div>
       <form @submit.prevent="login">
         <div class="input-field">
-          <div><label for="email">Téléphone/Email</label></div>
-          <input id="contact" v-model="email" required>
+          <div><label for="email">Email</label></div>
+          <input id="mail" v-model="mail" required>
         </div>
         <div class="input-field">
           <div><label for="password">Mot de passe</label></div>
@@ -29,42 +29,46 @@
   </body>
 </template>
 <script>
-
 // Dans votre composant Vue.js
 import axios from 'axios';
+import config from '../config'; 
 
 export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-    };
-  },
-  methods: {
-    
-    async login() {
-      try {
-        const response = await axios.post('http://localhost:3000/login', {
-          email: this.email,
-          password: this.password,
-        });
+data() {
+return {
+mail: '',
+password: '',
+token: '' // Ajout de la propriété token
+};
+},
+methods: {
+async login() {
+try {
+console.log("Email:", this.mail);
+console.log("Password:", this.password);
 
-        const { token, userId } = response.data;
+/*const response =*/ await axios.post(`${config.apiBaseUrl}/login`, {
+mail: this.mail,
+password: this.password,
+});
 
-        // Stocker l'ID de l'utilisateur dans le localStorage
-        localStorage.setItem('userId', userId);
+/*const { token, userId } = response.data;
 
-        // Stocker le jeton d'authentification dans une variable ou le localStorage
-        this.token = token;
+// Stocker l'ID de l'utilisateur dans le localStorage
+localStorage.setItem('userId', userId);
 
-        // Rediriger l'utilisateur vers une page protégée ou effectuer d'autres actions
-        this.$router.push('/acceuilPage');
-      } catch (error) {
-        console.error(error);
-        // Afficher un message d'erreur à l'utilisateur
-      }
-    },
-  },
+// Stocker le jeton d'authentification dans une variable ou le localStorage
+this.token = token;*/
+
+// Rediriger l'utilisateur vers une page protégée ou effectuer d'autres actions
+this.$router.push('/acceuilPage');
+} catch (error) {
+console.error("error lors de la connexion");
+// Afficher un message d'erreur à l'utilisateur
+alert("Erreur lors de la connexion. Veuillez vérifier vos informations.");
+}
+},
+},
 };
 </script>
 
